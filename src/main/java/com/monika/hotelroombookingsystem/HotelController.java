@@ -1,5 +1,6 @@
 package com.monika.hotelroombookingsystem;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,7 @@ public class HotelController {
     }
     
     @PostMapping("/rooms")
-    public ResponseEntity<Room> addRoom(@RequestBody Room room){
+    public ResponseEntity<Room> addRoom(@Valid @RequestBody Room room){
         hotelService.addRoom(room);
         return ResponseEntity.status(HttpStatus.CREATED).body(room);
     }
@@ -45,7 +46,7 @@ public class HotelController {
     }
     
     @PostMapping("/customers")
-    public ResponseEntity<Customer> addCustomer(@RequestBody Customer customer){
+    public ResponseEntity<Customer> addCustomer(@Valid @RequestBody Customer customer){
         hotelService.addCustomer(customer);
         return ResponseEntity.status(HttpStatus.CREATED).body(customer);
     }

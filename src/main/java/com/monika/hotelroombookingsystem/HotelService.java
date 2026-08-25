@@ -26,6 +26,14 @@ public class HotelService {
     }
     
     public void addRoom(Room room){
+        if(!"Single".equalsIgnoreCase(room.getRoomType()) &&
+        !"Double".equalsIgnoreCase(room.getRoomType()) &&
+        !"Suite".equalsIgnoreCase(room.getRoomType())){
+            throw new IllegalArgumentException(
+                "Room type must be Single, Double or Suite");
+        }
+
+        
         roomRepository.save(room);
     }
     

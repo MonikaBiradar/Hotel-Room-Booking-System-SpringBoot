@@ -1,15 +1,24 @@
 package com.monika.hotelroombookingsystem;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 
 @Entity
 public class Room {
     @Id
+    @Positive
     private int roomNum;
     
+    @NotBlank
     private String roomType;
+    
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private double roomPrice;
+    
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY, value = "available")
     private boolean isAvailable;
     
     public Room()
