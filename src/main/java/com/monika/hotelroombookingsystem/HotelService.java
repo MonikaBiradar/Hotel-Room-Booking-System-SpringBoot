@@ -1,6 +1,7 @@
 package com.monika.hotelroombookingsystem;
 
 import java.util.List;
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -60,13 +61,15 @@ public class HotelService {
         
         Customer customer = getCustomer(customerId);
         
-        for(Booking booking : bookingRepository.findAll()) {
-            if (booking.getCustomer().getCustomerId() == customerId && 
-                    booking.getRoom().getRoomNum() == roomNum &&
-                    booking.getStatus() == BookingStatus.BOOKED){
-                
-                throw new BookingConflictException("Room "+ roomNum + " is already booked");
-            }
+        Optional<Booking> existingBooking = 
+                bookingRepository.findByRoomRoomNumAndStatus(
+                        roomNum, 
+                        BookingStatus.BOOKED);
+        
+        if(existingBooking.isPresent()){
+                throw new BookingConflictException(
+                        "Room "+ roomNum + " is already booked");
+            
         }
 
         if(!room.book())
@@ -81,13 +84,13 @@ public class HotelService {
     }
     
     public void cancelBooking(int bookingId) {
-        Booking booking = bookingRepository.findById(bookingId).orElse(null);
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(()-> new ResourceNotFoundException(
+                "Booking "+ bookingId + " not found"));
         
-        if(booking == null)
-            return;
         
         if (booking.getStatus() == BookingStatus.CANCELLED) 
-            return;
+            throw new BookingConflictException("Booking "+ bookingId + " is already cancelled");
         
         booking.getRoom().cancel();
         booking.cancel();
