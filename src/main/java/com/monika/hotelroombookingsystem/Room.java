@@ -27,9 +27,15 @@ public class Room {
     public Room(int roomNum,String roomType){
         this.roomNum=roomNum;
         this.roomType=roomType;
-        if("Single".equalsIgnoreCase(roomType)){roomPrice=1200;}
-        if("Double".equalsIgnoreCase(roomType)){roomPrice=1800;}
-        if("Suite".equalsIgnoreCase(roomType)){roomPrice=2400;}
+        if("Single".equalsIgnoreCase(roomType)){
+            roomPrice=1200;
+        }
+        if("Double".equalsIgnoreCase(roomType)){
+            roomPrice=1800;
+        }
+        if("Suite".equalsIgnoreCase(roomType)){
+            roomPrice=2400;
+        }
         isAvailable=true;
     }
     
@@ -60,6 +66,7 @@ public class Room {
         return true;
     }
     
+    @Override
     public String toString(){
         return "Room No.: "+roomNum+
                 ", Room Type: "+roomType+

@@ -29,8 +29,6 @@ public class HotelController {
     @GetMapping("/rooms/{roomNum}")
     public ResponseEntity<Room> getRoom(@PathVariable int roomNum){
         Room room = hotelService.getRoom(roomNum);
-        if(room == null)
-            return ResponseEntity.notFound().build();
         return ResponseEntity.ok(room);
     }
     

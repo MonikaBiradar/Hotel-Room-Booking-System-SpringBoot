@@ -11,13 +11,15 @@ public class HotelService {
     private final RoomRepository roomRepository;
     private final CustomerRepository customerRepository;
     
-    public HotelService(RoomRepository roomRepository, CustomerRepository customerRepository, BookingRepository bookingRepository){
+    public HotelService(RoomRepository roomRepository, 
+                        CustomerRepository customerRepository, 
+                        BookingRepository bookingRepository){
         this.roomRepository = roomRepository;
         this.customerRepository = customerRepository;
         this.bookingRepository = bookingRepository;
     }
     
-    public List<Room> getAllRooms(){
+    public List<Room> getAllRooms() {
         return roomRepository.findAll();
     }
     
@@ -27,21 +29,25 @@ public class HotelService {
     }
     
     public void addRoom(Room room){
-        if(!"Single".equalsIgnoreCase(room.getRoomType()) &&
-        !"Double".equalsIgnoreCase(room.getRoomType()) &&
-        !"Suite".equalsIgnoreCase(room.getRoomType())){
+        if(!"Single".equalsIgnoreCase(room.getRoomType()) 
+                && !"Double".equalsIgnoreCase(room.getRoomType()) 
+                && !"Suite".equalsIgnoreCase(room.getRoomType())){
             throw new IllegalArgumentException(
                 "Room type must be Single, Double or Suite");
         }
 
+        if(roomRepository.existsById(room.getRoomNum())){
+            throw new BookingConflictException(
+                "Room "+ room.getRoomNum() + " already exists");
+        }
         
         roomRepository.save(room);
     }
     
-    public void addCustomer(Customer customer){
+    public void addCustomer(Customer customer) {
         customerRepository.save(customer);
     }
-    public List<Customer> getAllCustomers(){
+    public List<Customer> getAllCustomers() {
         return customerRepository.findAll();
     }
     
@@ -52,13 +58,13 @@ public class HotelService {
     
     
     public Booking bookRoom(int roomNum, int customerId, int totalNights) {
+        
         if(totalNights <= 0){
             throw new IllegalArgumentException(
                       "Number of nights must be greater than 0");
         }
         
         Room room = getRoom(roomNum);
-        
         Customer customer = getCustomer(customerId);
         
         Optional<Booking> existingBooking = 
@@ -79,7 +85,7 @@ public class HotelService {
         return bookingRepository.save(booking);
     }
     
-    public List<Booking> getAllBookings(){
+    public List<Booking> getAllBookings() {
         return bookingRepository.findAll();
     }
     

@@ -9,7 +9,7 @@ public class HotelroombookingsystemApplication {
 
 	public static void main(String[] args) {
 		
-            TimeZone.setDefault(TimeZone.getTimeZone("Asia/Kolkata"));
+            TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
             SpringApplication.run(HotelroombookingsystemApplication.class, args);
 	}
 

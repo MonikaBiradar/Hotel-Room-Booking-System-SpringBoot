@@ -34,10 +34,10 @@ public class Booking {
     private Customer customer;
     
     
-    public Booking(){
+    public Booking() {
     }
     
-    public Booking(Room room,Customer customer,int numOfNights)
+    public Booking(Room room, Customer customer, int numOfNights)
     {
         this.customer=customer;
         this.room=room;
@@ -65,6 +65,7 @@ public class Booking {
         return (room.getRoomPrice()* numOfNights);
     }
     
+    @Override
     public String toString()
     {
         return "Booking Id: "+bookingId+
